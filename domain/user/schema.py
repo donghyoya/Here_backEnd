@@ -3,7 +3,6 @@ from pydantic import BaseModel
 from typing import Sequence
 
 class UserBase(BaseModel):
-    Key: int
     loginId: str
     password: str
     nickName: str
@@ -20,4 +19,5 @@ class UserCreate(UserBase):
     profileImage: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
+        #orm_mode = True

@@ -11,7 +11,7 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
     return db.query(model.User).offset(skip).limit(limit).all()
 
 def create_user(db: Session, user: schema.UserCreate):
-    db_user = model.User(loginid=user.loginId, 
+    db_user = model.User(loginId=user.loginId, 
                          email=user.email, password=user.password,
                          nickName=user.nickName,
                          wallet_address=user.wallet_address,
