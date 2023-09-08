@@ -1,27 +1,24 @@
-from sqlalchemy import BigInteger, Boolean, \
-CheckConstraint, Column, DateTime, Float, \
-ForeignKeyConstraint, Identity, Index, Integer, \
-PrimaryKeyConstraint, SmallInteger, String, Text, UniqueConstraint
-from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, \
+PrimaryKeyConstraint, BigInteger, Text, DateTime
+from sqlalchemy.orm import relationship
 
-Base = declarative_base()
+from default.config.database import Base
 
 class Image(Base):
     __tablename__ = 'Image'
     __table_args__ = (
         PrimaryKeyConstraint('imageId', name='Image_pkey'),
     )
-
-    imageId = Column(BigInteger, primary_key=True)
-    Key = Column(BigInteger, nullable=False)
-    imageName = Column(Text)
+    imageId = Column(BigInteger, primary_key=True, unique=True, autoincrement=True)
+    userId = Column(BigInteger, ForeignKey('User.userId'), nullable=False)
+    imageName = Column(String(10))
     imageUrl = Column(Text)
-    imageSize = Column(Text)
-    fileType = Column(Text)
-    uploader_id = Column(BigInteger)
+    imageSize = Column(String(10))
+    fileType = Column(String(10))
+    uploaderId = Column(BigInteger)
     createTime = Column(DateTime)
-    tag = Column(Text)
+    tag = Column(String(10))
     views = Column(Integer)
-
-    Map = relationship('Map', back_populates='Image_')
-    NFT = relationship('NFT', back_populates='Image_')
+    map = relationship("Map", uselist=False, back_populates="image")
+    nft = relationship("NFT", uselist=False, back_populates="image")
+    user = relationship("User", back_populates="images")

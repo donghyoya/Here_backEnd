@@ -1,23 +1,22 @@
-from sqlalchemy import BigInteger, Boolean, CheckConstraint, Column, DateTime, Float, ForeignKeyConstraint, Identity, Index, Integer, PrimaryKeyConstraint, SmallInteger, String, Text, UniqueConstraint
+from sqlalchemy import BigInteger, \
+    Column, Float, ForeignKey, Identity, \
+    PrimaryKeyConstraint, String
 from sqlalchemy.orm import declarative_base, relationship
 
-Base = declarative_base()
+from default.config.database import Base
 
 class Map(Base):
     __tablename__ = 'Map'
     __table_args__ = (
-        ForeignKeyConstraint(['imageId'], ['Image.imageId'], name='FK_Image_TO_Map_1'),
-        PrimaryKeyConstraint('mapid', 'imageId', name='PK_MAP')
+        PrimaryKeyConstraint('mapId', name='Map_pkey'),
     )
-
-    mapid = Column(BigInteger, primary_key=True, nullable=False)
-    imageId = Column(BigInteger, primary_key=True, nullable=False)
+    mapId = Column(BigInteger, primary_key=True, nullable=False, autoincrement=True)
+    imageId = Column(BigInteger, ForeignKey('Image.imageId'), nullable=False)
     longitude = Column(Float(53))
     latitude = Column(Float(53))
-    Region = Column(Text)
-    Country = Column(Text)
-    City = Column(Text)
-    State = Column(Text)
-    Area = Column(Text)
-
-    Image_ = relationship('Image', back_populates='Map')
+    Region = Column(String(10))
+    Country = Column(String(10))
+    City = Column(String(10))
+    State = Column(String(10))
+    Area = Column(String(10))
+    image = relationship("Image", back_populates="map")

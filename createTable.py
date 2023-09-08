@@ -34,7 +34,7 @@ class Image(Base):
     imageUrl = Column(Text)
     imageSize = Column(String(10))
     fileType = Column(String(10))
-    uploader_id = Column(BigInteger)
+    uploaderId = Column(BigInteger)
     createTime = Column(DateTime)
     tag = Column(String(10))
     views = Column(Integer)
