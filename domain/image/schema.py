@@ -9,7 +9,7 @@ class ImageBase(BaseModel):
     imageUrl: Optional[str] = None
     imageSize: Optional[str] = None
     fileType: Optional[str] = None
-    uploader_id: Optional[int] = None
+    uploaderId: Optional[int] = None
     createTime: Optional[datetime] = None
     tag: Optional[str] = None
     views: Optional[int] = None

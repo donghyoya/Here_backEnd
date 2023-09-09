@@ -69,7 +69,7 @@ class NFT(Base):
     imageId = Column(BigInteger, ForeignKey('Image.imageId'), nullable=False)
     name = Column(String(20))
     description = Column(Text)
-    image = Column(Text) # S3 path
+    imagePath = Column(Text, nullable=False) # S3 path
     createDate = Column(DateTime)
     owner = Column(String(10))
     bfOwner = Column(String(10))
