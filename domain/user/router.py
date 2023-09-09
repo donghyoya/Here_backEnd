@@ -14,7 +14,7 @@ def get_db():
         
 
 @router.post("/",response_model=schema.UserCreate)
-def create_user(user: schema.UserCreate = Body(
+async def create_user(user: schema.UserCreate = Body(
     ...,
     example={
         "loginId": "testfastId",

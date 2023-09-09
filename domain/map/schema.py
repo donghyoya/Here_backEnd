@@ -9,3 +9,10 @@ class MapBase(BaseModel):
     City: str = Field(..., max_length=10, description="City of the location", example="Seoul")
     State: str = Field(..., max_length=10, description="State of the location", example="Gangnam")
     Area: str = Field(..., max_length=10, description="Area of the location", example="Samseong-dong")
+
+class MapCreate(MapBase):
+    pass
+
+class MapResponse(MapBase):
+    mapId: int = Field(..., description="Unique identifier for the map")
+    imageId: int = Field(..., description="Unique identifier for the associated image")
