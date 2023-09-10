@@ -1,4 +1,4 @@
-from sqlalchemy import Session
+from sqlalchemy.orm import Session
 from . import model, schema
 
 def get_map_byId(db: Session, mapId: int):
@@ -23,3 +23,6 @@ def create_map(db: Session, map: schema.MapCreate):
     db.commit()
     db.refresh(db_map)
     return db_map
+
+def get_maps(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(model.Map).all()

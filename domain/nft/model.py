@@ -15,6 +15,6 @@ class NFT(Base):
     description = Column(Text)
     imagePath = Column(Text, nullable=False) # S3 path
     createDate = Column(DateTime)
-    owner = Column(String(10))
-    bfOwner = Column(String(10))
-    image = relationship("Image", back_populates="nft", cascade="all, delete-orphan")
+    owner = Column(String(20))
+    bfOwner = Column(String(20))
+    image = relationship("Image", back_populates="nft", single_parent=True, cascade="all, delete-orphan")

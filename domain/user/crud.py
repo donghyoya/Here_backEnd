@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 from . import model, schema
 
-def get_user(db: Session, Key: int):
-    return db.query(model.User).filter(model.User.Key == Key).first()
+def get_user(db: Session, userId: int):
+    return db.query(model.User).filter(model.User.userId == userId).first()
 
 def get_user_by_email(db: Session, email:str):
     return db.query(model.User).filter(model.User.email == email).first()

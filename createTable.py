@@ -30,13 +30,13 @@ class Image(Base):
     )
     imageId = Column(BigInteger, primary_key=True, unique=True, autoincrement=True)
     userId = Column(BigInteger, ForeignKey('User.userId'), nullable=False)
-    imageName = Column(String(10))
+    imageName = Column(String(100))
     imageUrl = Column(Text)
-    imageSize = Column(String(10))
+    imageSize = Column(String(100))
     fileType = Column(String(10))
     uploaderId = Column(BigInteger)
     createTime = Column(DateTime)
-    tag = Column(String(10))
+    tag = Column(String(100))
     views = Column(Integer)
     map = relationship("Map", uselist=False, back_populates="image")
     nft = relationship("NFT", uselist=False, back_populates="image")
@@ -49,14 +49,14 @@ class Map(Base):
         PrimaryKeyConstraint('mapId', name='Map_pkey'),
     )
     mapId = Column(BigInteger, primary_key=True, nullable=False, autoincrement=True)
-    imageId = Column(BigInteger, ForeignKey('Image.imageId'), nullable=False)
+    imageId = Column(BigInteger, ForeignKey('Image.imageId'), nullable=True)
     longitude = Column(Float(53))
     latitude = Column(Float(53))
-    Region = Column(String(10))
-    Country = Column(String(10))
-    City = Column(String(10))
-    State = Column(String(10))
-    Area = Column(String(10))
+    Region = Column(String(100))
+    Country = Column(String(100))
+    City = Column(String(100))
+    State = Column(String(100))
+    Area = Column(String(100))
     image = relationship("Image", back_populates="map")
 
 
@@ -71,8 +71,8 @@ class NFT(Base):
     description = Column(Text)
     imagePath = Column(Text, nullable=False) # S3 path
     createDate = Column(DateTime)
-    owner = Column(String(10))
-    bfOwner = Column(String(10))
+    owner = Column(String(20))
+    bfOwner = Column(String(20))
     image = relationship("Image", back_populates="nft")
 
 class Transaction(Base):
