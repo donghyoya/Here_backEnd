@@ -4,9 +4,10 @@ from . import schema as image_schema
 from domain.nft import model as nft_model
 from domain.nft import schema as nft_schema
 
-def create_image_and_nft(db: Session, image: image_schema.ImageBase, nft: nft_schema.NFTBase):
+def create_image_and_nft(db: Session, image: image_schema.ImageCreate, nft: nft_schema.NFTBase):
     # Image 객체 생성
     new_image = image_model.Image(
+        userId=image.userId,
         imageName=image.imageName,
         imageUrl=image.imageUrl,
         imageSize=image.imageSize,
@@ -15,18 +16,17 @@ def create_image_and_nft(db: Session, image: image_schema.ImageBase, nft: nft_sc
         createTime=image.createTime,
         tag=image.tag,
         views=image.views
-        # 여기에 다른 필드를 추가하세요...
     )
     
     # NFT 객체 생성
     new_nft = nft_model.NFT(
+        hashCode=nft.hashCode,
         name=nft.name,
         description=nft.description,
         imagePath=nft.imagePath,
         createDate=nft.createDate,
         owner=nft.owner,
         bfOwner=nft.bfOwner,
-        # 여기에 다른 필드를 추가하세요...
         image=new_image  # Image 객체를 NFT 객체에 연결
     )
 

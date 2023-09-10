@@ -4,6 +4,6 @@ from domain.image.router import router as image_router
 from domain.map.router import router as map_router
 app = FastAPI()
 
-app.include_router(user_router, prefix="/users")
+app.include_router(user_router, prefix="/user")
 app.include_router(image_router,prefix="/image")
 app.include_router(map_router,prefix="/map")

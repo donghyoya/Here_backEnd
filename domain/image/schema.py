@@ -14,7 +14,7 @@ class ImageBase(BaseModel):
     views: Optional[int] = Field(None, example=100)
 
 class ImageCreate(ImageBase):
-    userId: int
+    userId: int = Field(..., example=1)
 
 class ImageResponse(ImageBase):
     imageId: int

@@ -9,6 +9,7 @@ class Transaction(Base):
         PrimaryKeyConstraint("tranId",name="tran_pkey"),
     )
     tranId = Column(BigInteger, primary_key=True, nullable=False, autoincrement=True)
+    sellHashCode = Column(Text, nullable=False)
     sellerId = Column(String(20))
     buyerId = Column(String(20))
     nftId = Column(BigInteger, nullable=False)
