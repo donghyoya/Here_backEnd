@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, Depends, HTTPException, Body
-import  domain.nft.schema as nft_schema
+import domain.nft.schema as nft_schema
 from . import crud
 from . import schema as image_schema
 from pydantic import BaseModel
