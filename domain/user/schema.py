@@ -19,3 +19,7 @@ class UserCreate(UserBase):
     wallet_address: str
     profileImage: str
 
+class UserLogin(BaseModel):
+    loginId: Optional[str]
+    password: Optional[str]
+

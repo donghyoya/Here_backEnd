@@ -20,3 +20,10 @@ def create_user(db: Session, user: schema.UserCreate):
     db.commit()
     db.refresh(db_user)
     return db_user
+
+def login(db: Session, id: str, pwd: str):
+    user = db.query(model.User).filter(model.User.loginId == id, model.User.password == pwd).first()
+    if user:
+        return user
+    else:
+        return "Invalid credentials"

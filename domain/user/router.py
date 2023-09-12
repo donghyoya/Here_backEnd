@@ -13,7 +13,7 @@ def get_db():
         db.close()
         
 
-@router.post("/",response_model=schema.UserCreate)
+@router.post("/createUser",response_model=schema.UserCreate)
 async def create_user(user: schema.UserCreate = Body(
     ...,
     example={
@@ -37,3 +37,14 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
     return db_user
+
+@router.post("/login",response_model=schema.UserBase)
+def login(user_login: schema.UserLogin, db: Session = Depends(get_db)):
+    user = crud.login(db=db, id=user_login.loginId, pwd=user_login.password)
+    if user == "Invalid credentials":
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    return user
