@@ -43,7 +43,7 @@ def login(user_login: schema.UserLogin, db: Session = Depends(get_db)):
     user = crud.login(db=db, id=user_login.loginId, pwd=user_login.password)
     if user == "Invalid credentials":
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
+            status_code="401",
             detail="Invalid credentials",
             headers={"WWW-Authenticate": "Bearer"},
         )
