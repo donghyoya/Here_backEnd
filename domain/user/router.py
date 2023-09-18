@@ -3,7 +3,9 @@ from . import crud, schema
 from .session import Session
 from default.config import database
 
-router = APIRouter()
+router = APIRouter(
+    tags=["user"]
+)
 
 def get_db():
     try:

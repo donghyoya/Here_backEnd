@@ -8,7 +8,9 @@ from typing import List
 
 from default.config import database
 
-router = APIRouter()
+router = APIRouter(
+    tags=["image"]
+)
 
 class ImageNFTResponse(BaseModel):
     image: image_schema.ImageResponse
@@ -34,7 +36,7 @@ async def create_image_nft(nft: nft_schema.NFTCreate,image: image_schema.ImageCr
     )
     return response
 
-@router.post("/findbyName",response_model=List[image_schema.ImageBase])
+@router.get("/findbyName",response_model=List[image_schema.ImageBase])
 def getImageByName(name: str, skip: int =0, limit: int =20, db: Session = Depends(get_db)):
     images = crud.get_Images_byName(db=db, name=name,skip=skip, limit=limit)
 
