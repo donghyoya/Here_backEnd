@@ -3,6 +3,7 @@ from . import model as image_model
 from . import schema as image_schema
 from domain.nft import model as nft_model
 from domain.nft import schema as nft_schema
+from sqlalchemy import or_
 
 def create_image_and_nft(db: Session, image: image_schema.ImageCreate, nft: nft_schema.NFTBase):
     # Image 객체 생성
@@ -35,3 +36,23 @@ def create_image_and_nft(db: Session, image: image_schema.ImageCreate, nft: nft_
     db.refresh(new_nft)
 
     return new_image,new_nft
+
+def get_Images_byName(db: Session, name: str, skip: int = 0, limit: int = 20):
+    query = db.query(image_model.Image).filter(
+        or_(
+            image_model.Image.imageName == name,
+            image_model.Image.imageName.like(f"{name}%"),
+            image_model.Image.imageName.like(f"%{name}"),
+            image_model.Image.imageName.like(f"%{name}%"),
+        )
+    )
+    query = query.order_by(
+
+        (image_model.Image.imageName == name),
+        (image_model.Image.imageName.like(f"{name}%")).desc(),
+        (image_model.Image.imageName.like(f"%{name}")).desc(),
+        (image_model.Image.imageName.like(f"%{name}%")).desc(),
+        image_model.Image.imageName
+    )
+
+    return query.offset(skip).limit(limit).all()

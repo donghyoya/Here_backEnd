@@ -102,7 +102,6 @@ print(DATABASE_DBNAME)
 print(DATABASE_USER)
 print(DATABASE_URL)
 # DATABASE_URL2 = "postgresql://postgres:0814@localhost:5432/postgres"
-# DATABASE_URL = "postgresql://teamhere.cmaeamlokomq.ap-northeast-2.rds.amazonaws.com:5432/teamHereDB"
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 

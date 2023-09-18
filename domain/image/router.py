@@ -4,6 +4,7 @@ import domain.nft.schema as nft_schema
 from . import crud
 from . import schema as image_schema
 from pydantic import BaseModel
+from typing import List
 
 from default.config import database
 
@@ -32,3 +33,9 @@ async def create_image_nft(nft: nft_schema.NFTCreate,image: image_schema.ImageCr
         nft=nft_in_db
     )
     return response
+
+@router.post("/findbyName",response_model=List[image_schema.ImageBase])
+def getImageByName(name: str, skip: int =0, limit: int =20, db: Session = Depends(get_db)):
+    images = crud.get_Images_byName(db=db, name=name,skip=skip, limit=limit)
+
+    return images
