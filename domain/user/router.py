@@ -52,7 +52,12 @@ def login(user_login: schema.UserLogin, db: Session = Depends(get_db)):
         )
     return user
 
-@router.delete("delete",response_model=schema.rmDataCheck)
-def removeUser(userId: int, status: str = "remove",db: Session = Depends(get_db)):
-    rmUser_db = crud.update_rmData_status(userId=userId,status=status, db=db)
+@router.delete("removeUser",response_model=bool)
+def removeUser(userId: int,db: Session = Depends(get_db)):
+    rmUser_db = crud.update_rmData_status(userId=userId,status="remove", db=db)
     return rmUser_db
+
+@router.patch("appendUser",response_model=bool)
+def appendUser(userId: int, db:Session = Depends(get_db)):
+    apUser_db = crud.update_rmData_status(userId=userId, status="append",db=db)
+    return apUser_db
