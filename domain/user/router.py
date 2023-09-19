@@ -25,6 +25,7 @@ async def create_user(user: schema.UserCreate = Body(
         "email":"noting@test.com",
         "wallet_address": "no address",
         "profileImage":"mmm",
+        "klipToken":"testklipToken",
     },
 ), db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db=db, email=user.email)
@@ -50,3 +51,8 @@ def login(user_login: schema.UserLogin, db: Session = Depends(get_db)):
             headers={"WWW-Authenticate": "Bearer"},
         )
     return user
+
+@router.delete("delete",response_model=schema.rmDataCheck)
+def removeUser(userId: int, status: str = "remove",db: Session = Depends(get_db)):
+    rmUser_db = crud.update_rmData_status(userId=userId,status=status, db=db)
+    return rmUser_db

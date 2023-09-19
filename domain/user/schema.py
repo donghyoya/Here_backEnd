@@ -10,6 +10,7 @@ class UserBase(BaseModel):
     email: Optional[str] = None
     wallet_address: Optional[str] = None
     profileImage: Optional[str] = None
+    klipToken: Optional[str] = None
 
 class UserCreate(UserBase):
     loginId: str
@@ -23,3 +24,7 @@ class UserLogin(BaseModel):
     loginId: Optional[str]
     password: Optional[str]
 
+class rmDataCheck(BaseModel):
+    loginId: Optional[str]
+    klipToken: Optional[str]
+    rmData: Optional[bool]

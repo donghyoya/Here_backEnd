@@ -25,7 +25,9 @@ def create_user(db: Session, user: schema.UserCreate):
                          email=user.email, password=hashed_password,
                          nickName=user.nickName,
                          wallet_address=user.wallet_address,
-                         profileImage=user.profileImage)
+                         profileImage=user.profileImage,
+                         klipToken=user.klipToken
+                         )
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -37,3 +39,25 @@ def login(db: Session, id: str, pwd: str) -> bool:
         return True
     else:
         return False
+
+def update_rmData_status(db: Session, userId: int, status: str) -> schema.rmDataCheck:
+    # 해당 ID를 가진 데이터를 찾습니다.
+    db_user = db.query(model.User).filter(model.User.userId == userId).first()
+    if db_user:
+        # 입력된 status에 따라 rmData 값을 변경합니다.
+        if status == "remove":
+            db_user.rmData = True
+        elif status == "append":
+            db_user.rmData = False
+        
+        # 변경된 데이터를 커밋합니다.
+        db.commit()
+        db.refresh(db_user)
+        schemaRmData = schema.rmDataCheck(
+            loginId=db_user.loginId,
+            klipToken=db_user.klipToken,
+            rmData=db_user.rmData
+        )
+        return schemaRmData
+    else:
+        return None

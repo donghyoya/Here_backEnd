@@ -18,11 +18,13 @@ class User(Base):
      )
     userId = Column(BigInteger, primary_key=True, unique=True, autoincrement=True)
     loginId = Column(String(20))
-    password = Column(String(20))
+    password = Column(Text)
     nickName = Column(String(20))
     email = Column(String(30))
     wallet_address = Column(String(255))
     profileImage = Column(String(100))
+    klipToken = Column(Text)
+    rmData = Column(Boolean,default=False)
     images = relationship("Image", back_populates="user")
 
 
@@ -41,6 +43,7 @@ class Image(Base):
     createTime = Column(DateTime)
     tag = Column(String(100))
     views = Column(Integer)
+    rmData = Column(Boolean)
     map = relationship("Map", uselist=False, back_populates="image")
     nft = relationship("NFT", uselist=False, back_populates="image")
     user = relationship("User", back_populates="images")
@@ -60,6 +63,7 @@ class Map(Base):
     City = Column(String(100))
     State = Column(String(100))
     Area = Column(String(100))
+    rmData = Column(Boolean)
     image = relationship("Image", back_populates="map")
 
 
@@ -77,6 +81,7 @@ class NFT(Base):
     createDate = Column(DateTime)
     owner = Column(String(20))
     bfOwner = Column(String(20))
+    rmData = Column(Boolean)
     image = relationship("Image", back_populates="nft")
 
 class Transaction(Base):
@@ -92,8 +97,9 @@ class Transaction(Base):
     price = Column(String(20))
     transactionDate = Column(DateTime)
     status = Column(String(7))
+    rmData = Column(Boolean)
 
-load_dotenv('.env.database')
+load_dotenv('.env.local')
 DATABASE_USER = os.getenv('DATABASE_USER')
 DATABASE_DBNAME = os.getenv('DATABASE_DBNAME')
 DATABASE_URL = os.getenv('DATABASE_URL')
