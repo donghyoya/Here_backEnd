@@ -40,10 +40,11 @@ def login(db: Session, id: str, pwd: str) -> bool:
     else:
         return False
 
-def update_rmData_status(db: Session, userId: int, status: str) -> schema.rmDataCheck:
+def update_rmData_status(db: Session, userId: int, status: str) -> bool:
     # 해당 ID를 가진 데이터를 찾습니다.
     db_user = db.query(model.User).filter(model.User.userId == userId).first()
-    bf_rmData = db_user.rmData
+    # 기존과 변경후 번경된게 됬으면 정상 으로 사용할려고햇엇다
+    # bf_rmData = db_user.rmData 
     if db_user:
         # 입력된 status에 따라 rmData 값을 변경합니다.
         if status == "remove":
@@ -54,11 +55,17 @@ def update_rmData_status(db: Session, userId: int, status: str) -> schema.rmData
         # 변경된 데이터를 커밋합니다.
         db.commit()
         db.refresh(db_user)
-        # schemaRmData = schema.rmDataCheck(
-        #     loginId=db_user.loginId,
-        #     klipToken=db_user.klipToken,
-        #     rmData=db_user.rmData
-        # )
+        return True
+    else:
+        return False
+
+def setKlipToken(db: Session, userId: int, token: str) -> bool:
+    db_user = db.query(model.User).filter(model.User.userId == userId).first()
+    if db_user:
+        db_user.klipToken == token
+        
+        db.commit()
+        db.refresh(db_user)
         return True
     else:
         return False

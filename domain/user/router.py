@@ -52,12 +52,19 @@ def login(user_login: schema.UserLogin, db: Session = Depends(get_db)):
         )
     return user
 
-@router.delete("removeUser",response_model=bool)
+@router.patch("/appendUser",response_model=bool)
+def appendUser(userId: int, db:Session = Depends(get_db)):
+    apUser_db = crud.update_rmData_status(userId=userId, status="append",db=db)
+    if apUser_db == False:
+        raise HTTPException(status_code=404, detail="User not found")
+    return apUser_db
+
+@router.patch("/setKlipToken",response_model=bool)
+def setKlipToken(userId: int, token:str, db: Session = Depends(get_db)):
+    setTokenUser_db = crud.setKlipToken(db=db, userId=userId, token=token)
+    return setTokenUser_db
+
+@router.delete("/removeUser",response_model=bool)
 def removeUser(userId: int,db: Session = Depends(get_db)):
     rmUser_db = crud.update_rmData_status(userId=userId,status="remove", db=db)
     return rmUser_db
-
-@router.patch("appendUser",response_model=bool)
-def appendUser(userId: int, db:Session = Depends(get_db)):
-    apUser_db = crud.update_rmData_status(userId=userId, status="append",db=db)
-    return apUser_db

@@ -23,7 +23,7 @@ def get_db():
     finally:
         db.close()
 
-@router.post("/",response_model=ImageNFTResponse)
+@router.post("/createIm_NFT",response_model=ImageNFTResponse)
 async def create_image_nft(nft: nft_schema.NFTCreate,image: image_schema.ImageCreate,  db: Session = Depends(get_db)):
     image_in_db, nft_in_db = crud.create_image_and_nft(db=db,image=image,nft=nft)
     '''
