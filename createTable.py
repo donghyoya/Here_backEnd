@@ -13,6 +13,7 @@ Base = declarative_base()
 
 class User(Base):
     __tablename__ = 'User'
+    
     __table_args__ = (
          PrimaryKeyConstraint('userId', name='User_pkey'),
      )
