@@ -107,6 +107,7 @@ DATABASE_URL = os.getenv('DATABASE_URL')
 print(DATABASE_DBNAME)
 print(DATABASE_USER)
 print(DATABASE_URL)
+
 # DATABASE_URL2 = "postgresql://postgres:0814@localhost:5432/postgres"
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
