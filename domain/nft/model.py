@@ -1,5 +1,5 @@
 from sqlalchemy import  Column, ForeignKey, String, \
-PrimaryKeyConstraint, BigInteger, Text, DateTime
+PrimaryKeyConstraint, BigInteger, Text, DateTime, Boolean
 from sqlalchemy.orm import relationship
 
 from default.config.database import Base
@@ -18,6 +18,7 @@ class NFT(Base):
     createDate = Column(DateTime)
     owner = Column(String(20))
     bfOwner = Column(String(20))
+    rmData = Column(Boolean, default=False)
     image = relationship("Image", back_populates="nft", single_parent=True, cascade="all, delete-orphan")
 
     
