@@ -60,10 +60,8 @@ def get_Images_byName(db: Session, name: str, skip: int = 0, limit: int = 20):
 def update_rmData_status(db: Session, imageId: int, nftId: int, status: str) -> bool:
     image_db_user = db.query(image_model.Image).filter(image_model.Image.imageId == imageId).first()
     nft_db_user = db.query(nft_model.NFT).filter(nft_model.NFT.NFTId == nftId).first()
-
     if not image_db_user or not nft_db_user:
         return False
-
     try:
         if status == "remove":
             image_db_user.rmData = True
@@ -73,7 +71,6 @@ def update_rmData_status(db: Session, imageId: int, nftId: int, status: str) -> 
             nft_db_user.rmData = False
         else:
             raise ValueError(f"Invalid status value: {status}")
-
         db.commit()
     except IntegrityError:
         db.rollback()

@@ -39,5 +39,14 @@ async def create_image_nft(nft: nft_schema.NFTCreate,image: image_schema.ImageCr
 @router.get("/findbyName",response_model=List[image_schema.ImageBase])
 def getImageByName(name: str, skip: int =0, limit: int =20, db: Session = Depends(get_db)):
     images = crud.get_Images_byName(db=db, name=name,skip=skip, limit=limit)
-
     return images
+
+@router.patch("/appendIm_NFT",response_model=bool)
+def appendImageAndNft(imageId: int, nftId: int, db: Session = Depends(get_db)):
+    apImNft_db = crud.update_rmData_status(imageId=imageId, nftId=nftId, status="append",db=db)
+    return apImNft_db
+
+@router.delete("/removeIm_NFT",response_model=bool)
+def removeImageAndNft(imageId: int, nftId: int, db: Session = Depends(get_db)):
+    rmImNft_db = crud.update_rmData_status(imageId=imageId, nftId=nftId, status="remove", db=db)
+    return rmImNft_db
