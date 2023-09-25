@@ -19,6 +19,7 @@ class Image(Base):
     createTime = Column(DateTime)
     tag = Column(String(100))
     views = Column(Integer)
+    rmData = Column(Boolean, default=False)
     map = relationship("Map", uselist=True, back_populates="image")
     nft = relationship("NFT", uselist=False, back_populates="image")
     user = relationship("User", back_populates="images")
