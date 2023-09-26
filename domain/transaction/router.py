@@ -1,10 +1,13 @@
 from .session import Session
 from fastapi import APIRouter, Depends, HTTPException, Body
 from . import crud, schema
+from typing import List
 
 from default.config import database
 
-router = APIRouter()
+router = APIRouter(
+    tags=["transaction"]
+)
 
 def get_db():
     try:
@@ -18,7 +21,7 @@ async def create_tran(tran: schema.TransactionCreate, db: Session = Depends(get_
     db_tran = crud.create_tran(db=db, transaction=tran)
     return db_tran
 
-@router.get("/trans",response_model=schema.TransactionResponse)
+@router.get("/trans",response_model=List[schema.TransactionResponse])
 def get_trans(db:Session = Depends(get_db)):
     db_trans = crud.get_trans(db=db)
     return db_trans
