@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Depends, HTTPException, Body
+from fastapi import APIRouter, Depends, HTTPException, Body, Query
 from . import crud, schema
 from .session import Session
+from typing import List
 from default.config import database
 
 router = APIRouter(
@@ -34,7 +35,7 @@ async def create_user(user: schema.UserCreate = Body(
     user_in_db = crud.create_user(db=db, user=user)
     return user_in_db
 
-@router.get("/{user_id}", response_model=schema.UserBase)
+@router.get("/getUserbyId", response_model=schema.UserBase)
 def read_user(user_id: int, db: Session = Depends(get_db)):
     db_user = crud.get_user(db, user_id)
     if db_user is None:
@@ -51,6 +52,23 @@ def login(user_login: schema.UserLogin, db: Session = Depends(get_db)):
             headers={"WWW-Authenticate": "Bearer"},
         )
     return user
+
+@router.get("/getUsers",response_model=List[schema.UserBase])
+def getUsers(skip: int = Query(
+    default=0,
+    example=0
+), limit: int = Query(
+    default=10,
+    example=10
+), db: Session = Depends(get_db)):
+    users = crud.get_users(skip=skip, limit=limit, db=db)
+    if (len(users) == 0):
+        raise HTTPException(
+            status_code=404,
+            detail="No User data",
+            headers={"WWW-Authenticate": "Bearer"}
+        )
+    return users
 
 @router.patch("/appendUser",response_model=bool)
 def appendUser(userId: int, db:Session = Depends(get_db)):
