@@ -42,6 +42,8 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     return db_user
 
+
+
 @router.post("/login",response_model=schema.UserBase)
 def login(user_login: schema.UserLogin, db: Session = Depends(get_db)):
     user = crud.login(db=db, id=user_login.loginId, pwd=user_login.password)
