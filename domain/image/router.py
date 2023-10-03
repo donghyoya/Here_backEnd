@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
-from fastapi import APIRouter, Depends, HTTPException, Body
+from fastapi import APIRouter, Depends, HTTPException, Body, \
+    Query
 import domain.nft.schema as nft_schema
 from . import crud
 from . import schema as image_schema
@@ -35,6 +36,23 @@ async def create_image_nft(nft: nft_schema.NFTCreate,image: image_schema.ImageCr
         nft=nft_in_db
     )
     return response
+
+@router.get("/getImages",response_model=List[image_schema.ImageBase])
+def getImagesByName(skip: int = Query(
+    default=0,
+    example=0
+), limit: int = Query(
+    default=10,
+    example=10
+),db: Session = Depends(get_db)):
+    images_db = crud.get_Images(skip=skip, limit=limit, db=db)
+    if(len(images_db) == 0):
+        raise HTTPException(
+            status_code=404,
+            detail="No Image Data",
+            headers={"WWW-Authenticate": "Bearer"}
+        )
+    return images_db
 
 @router.get("/getImagesByName",response_model=List[image_schema.ImageBase])
 def getImageByName(name: str, skip: int =0, limit: int =20, db: Session = Depends(get_db)):
