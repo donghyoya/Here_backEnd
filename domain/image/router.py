@@ -36,7 +36,7 @@ async def create_image_nft(nft: nft_schema.NFTCreate,image: image_schema.ImageCr
     )
     return response
 
-@router.get("/findbyName",response_model=List[image_schema.ImageBase])
+@router.get("/getImagesByName",response_model=List[image_schema.ImageBase])
 def getImageByName(name: str, skip: int =0, limit: int =20, db: Session = Depends(get_db)):
     images = crud.get_Images_byName(db=db, name=name,skip=skip, limit=limit)
     return images
