@@ -58,6 +58,11 @@ def get_Images_byName(db: Session, name: str, skip: int = 0, limit: int = 20):
 
     return query.offset(skip).limit(limit).all()
 
+def get_Images(db: Session, limit: int, skip: int):
+    return db.query(image_model.Image) \
+        .filter(image_model.Image.rmData == False) \
+        .offset(skip).limit(limit).all()
+
 def update_rmData_status(db: Session, imageId: int, nftId: int, status: str) -> bool:
     image_db_user = db.query(image_model.Image).filter(image_model.Image.imageId == imageId).first()
     nft_db_user = db.query(nft_model.NFT).filter(nft_model.NFT.NFTId == nftId).first()
