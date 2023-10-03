@@ -20,5 +20,6 @@ def create_tran(db: Session, transaction: schema.TransactionCreate):
     db.refresh(db_tran)
     return db_tran
 
-def get_trans(db: Session):
-    return db.query(model.Transaction).all()
+def get_trans(db: Session, skip: int, limit: int):
+    return db.query(model.Transaction).filter(model.Transaction.rmData == False)\
+        .offset(skip).limit(limit).all()
